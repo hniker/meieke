@@ -2,8 +2,8 @@
   <div>
     <tabbar style="position: fixed;bottom: 0px!important;border:none!important;">
       <tabbar-item @on-item-click="toHome()">
-        <img slot="icon" v-show="!home"  src="../../static/sy.png" >
-        <img slot="icon" v-show="home" src="../../static/sy1.png" >
+        <img slot="icon" v-show="!$parent.$data.home"  src="../../static/sy.png" >
+        <img slot="icon" v-show="$parent.$data.home" src="../../static/sy1.png" >
         <span slot="label">首页</span>
       </tabbar-item>
       <!--<tabbar-item @on-item-click="toMarketing()">-->
@@ -16,8 +16,8 @@
       <!--<span slot="label">分类</span>-->
       <!--</tabbar-item>-->
       <tabbar-item  @on-item-click="toPersonInfo()">
-        <img slot="icon" v-show="!personal" src="./../../static/grzx.png">
-        <img slot="icon" v-show="personal" src="./../../static/grzx1.png">
+        <img slot="icon" v-show="!$parent.$data.personal" src="./../../static/grzx.png">
+        <img slot="icon" v-show="$parent.$data.personal" src="./../../static/grzx1.png">
         <span slot="label">个人中心</span>
       </tabbar-item>
     </tabbar>
@@ -48,23 +48,26 @@
     },
     methods: {
       toHome () {
-        console.log('++')
-        this.home = true
-        this.marketing = false
-        this.personal = false
+        // this.home = true
+        // this.marketing = false
+        // this.personal = false
+        this.$parent.$data.home = true;
+        this.$parent.$data.marketing = false;
+        this.$parent.$data.personal = false;
         this.$router.push('/home')
       },
       toMarketing () {
-        this.marketing = true
-        this.personal = false
-        this.home = false
+        this.$parent.$data.home = false;
+        this.$parent.$data.marketing = true;
+        this.$parent.$data.personal = false;
         this.show = true
       },
       toPersonInfo () {
-        this.personal = true
-        this.marketing = false
-        this.home = false
-        document.location.href = 'http://dmyzs.test.juefei88.com/h5/#/person'
+        this.$parent.$data.home = false;
+        this.$parent.$data.marketing = false;
+        this.$parent.$data.personal = true;
+        this.$router.push('/person')
+        // document.location.href = 'http://dmyzs.test.juefei88.com/h5/#/person'
       }
     }
   }

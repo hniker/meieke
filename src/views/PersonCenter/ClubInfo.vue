@@ -9,9 +9,10 @@
         <div class="line_lab"> 会所地址： </div>
         <div class="line_input" style="width: 260px;"><input type="text" placeholder="请填写会所地址" style="position:relative; width:150px;color: #666666;letter-spacing: 2px;" v-model="clubAddress"> </div>
       </div>
-      <div class="line_box_c" >
+      <div class="line_box_c">
         <div class="line_lab"> 会所时间： </div>
-        <div class="line_text"><input type="text" placeholder="11: 00 -- 22:00" style="color: #666666;letter-spacing: 2px;" v-model="time1"> </div>
+        <div class="line_text"><span @click="onChangeDateS()">{{startTime}}</span>　--　<span @click="onChangeDateE()">{{endTime}}</span> </div>
+        <!-- <div class="line_text"><input type="text" placeholder="11: 00 -- 22:00" style="color: #666666;letter-spacing: 2px;" v-model="time1"> </div> -->
       </div>
 
 <!--       <div class="line_box_c" style="margin-top: 20px;border: 0px;">
@@ -33,7 +34,7 @@
       </div>
 
       <div class="line_box_c" style="margin-top: 10px;border: 0px;">
-        <div class="line_lab" style="width: 200px;"> 上传图片（最多6张）： </div>
+        <div class="line_lab"> 上传图片（最多6张）： </div>
         <div class="line_btn" id="demo01">上传
         </div>
 
@@ -70,13 +71,16 @@
 </template>
 <script type='text/ecmascript-6'>
   import t from './../../api/public'
+  import { Datetime, Picker, DatetimePlugin, AlertPlugin, TransferDomDirective as TransferDom } from 'vux'
   import fileBase64 from 'vue-file-base64'
   import wx from 'weixin-js-sdk'
+  import $ from 'jquery'
 
   export default {
     components: {
       t,
-      fileBase64
+      fileBase64,
+      AlertPlugin,
     },
     data () {
       return {
@@ -85,12 +89,14 @@
         time1: '',
         description: '',
         groupinfo: '',
-        // QRfileBase64: '',
+        QRfileBase64: '',
         houseImgData: [],
         // teamImgData: [],
         currentHouseImg: [],
         // currentTeamImg: [],
-        sd: 'sumer'
+        sd: 'sumer',
+        startTime: '08:00',
+        endTime: '20:00',
       }
     },
     mounted () {
@@ -183,46 +189,61 @@
         //   })
         // })
         // 绑定上传团队的图片按钮
-        document.getElementById('demo01').addEventListener('click', function () {
-          wx.chooseImage({
-            count: 6, // 默认9
-            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-            success: function (res) {
-              let i = 0
-              let length = res.localIds.length
-              alert(length)
-              function upload () {
-                wx.uploadImage({
-                  localId: res.localIds[i],
-                  success: function (res) {
-                    i++
-                    t.xhr.getPost({
-                      siteId: 1,
-                      act: 'personal/wximg',
-                      data: {
-                        mediaid: res.serverId,
-                        openid: t.myStorage.getLocal('openid'),
-                        parm: 'club'
+        $("#demo01").click(function(event) {
+          if (that.houseImgData.length >= 6) {
+            that.$vux.alert.show({
+              title: '提示',
+              content: '最多只能上传6张图片',
+            });
+            return;
+          }
+
+          let _nums = 6 - that.houseImgData.length;
+
+          wx.ready(function(){
+            wx.chooseImage({
+              count: _nums, // 默认9
+              sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+              sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+              success: function (res) {
+                let i = 0
+                let length = res.localIds.length
+                // alert(length)
+                function upload () {
+                  wx.uploadImage({
+                    localId: res.localIds[i],
+                    success: function (res) {
+                      i++
+                      t.xhr.getPost({
+                        siteId: 1,
+                        act: 'personal/wximg',
+                        data: {
+                          mediaid: res.serverId,
+                          openid: t.myStorage.getLocal('openid'),
+                          parm: 'club'
+                        }
+                      }, function (data) {
+                        that.currentHouseImg.push(data.data)
+                        that.houseImgData.push(data.data)
+                      })
+                      if (i < length) {
+                        upload()
                       }
-                    }, function (data) {
-                      that.currentHouseImg.push(data.data)
-                      that.houseImgData.push(data.data)
-                    })
-                    if (i < length) {
-                      upload()
+                    },
+                    fail: function (res) {
+                      alert(JSON.stringify(res))
                     }
-                  },
-                  fail: function (res) {
-                    alert(JSON.stringify(res))
-                  }
-                })
+                  })
+                }
+                upload()
               }
-              upload()
-            }
+            })
           })
           this.teamImgData = this.currentTeamImg
-        })
+        });
+        // document.getElementById('demo01').addEventListener('click', function () {
+          
+        // })
       })
     },
     methods: {
@@ -260,19 +281,39 @@
             parm: 'club',
             club: this.clubname,
             address: this.clubAddress,
-            time1: this.time1,
-            head: this.QRfileBase64,
+            time1: this.startTime + '--' + this.endTime,
+            // head: this.QRfileBase64,
             description: this.description,
             clubimg: this.currentHouseImg !== this.houseImgData ? this.currentHouseImg : this.houseImgData,
-            groupinfo: this.groupinfo,
-            groupimg: this.currentTeamImg !== this.teamImgData ? this.currentTeamImg : this.teamImgData,
+            // groupinfo: this.groupinfo,
+            // groupimg: this.currentTeamImg !== this.teamImgData ? this.currentTeamImg : this.teamImgData,
             way: 'base64'
           }
         }, function (data) {
           console.log(data, 22)
           if (data.code === '200') {
-            that.$router.push('/person/wsinfo')
+            that.$router.push('/person/editinfo')
           }
+        })
+      },
+      onChangeDateS() {
+        const _this = this
+        this.$vux.datetime.show({
+          value: '', // 其他参数同 props
+          format: 'HH:mm',
+          onConfirm(value) {
+            _this.startTime = value;
+          },
+        })
+      },
+      onChangeDateE() {
+        const _this = this
+        this.$vux.datetime.show({
+          value: '', // 其他参数同 props
+          format: 'HH:mm',
+          onConfirm(value) {
+            _this.endTime = value;
+          },
         })
       }
     }
@@ -290,7 +331,6 @@
 }
   .line_lab {
     position: relative;
-    width: 100px;
     float: left;
     font-size: 14px;
     color: #333333;

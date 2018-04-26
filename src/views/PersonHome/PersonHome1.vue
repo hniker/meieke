@@ -1,91 +1,109 @@
 <template>
-	<div class="x-body-f" style="position: relative;background: #fcf6fc;">
-		<p class="change-style" @click="changeStyle()">更换<br/>风格</p>
-    <img style="display: block;width: 100%;" src="static/x_h2.jpg" alt="">
-		<div class="x-info-1 th-2">
-			<div class="x-head-portrait x-h2">
-				<img :src="userinfo.avatar" alt=""></div>
-			<div class="x-label2">
-				<p class="nickname">{{ userinfo.nickname }}</p>
-				<p>
-					<span>{{ userinfo.position }}</span>
-					<i>|</i>
-					<span>从业{{ userinfo.work_age}}年</span></p>
-          <div>
-            {{userinfo.motto}}
+    <div class="x-body-f" style="position: relative">
+      <p class="change-style" @click="changeStyle()">更换<br/>风格</p>
+      <img class="x-h1" src="static/x_h1.jpg" alt="">
+
+      <div class="x-info-1">
+        <div class="x-head-portrait">
+          <img :src="userinfo.avatar" alt="">
+        </div>
+
+        <div class="x-label">
+          {{userinfo.motto}}
+        </div>
+
+        <div class="x-info-box">
+          <p class="nickname">{{ userinfo.nickname }}</p>
+          <p><span>{{ userinfo.position }}</span><i> | </i><span> 从业{{ userinfo.work_age}}年</span></p>
+        </div>
+
+      </div>
+
+      <div class="home_btnbox">
+        <div class="home_btn" @click="getFabulous()">
+          <svg class="home_icon" aria-hidden="true">
+            <use xlink:href="#icon-heart-copy"></use>
+          </svg>
+          点赞 {{ userinfo.good }}</div>
+
+        <a style="color:#333333;" :href="'tel:' + userinfo.phone" class="call"><div class="home_btn" style="float: right">
+          <svg class="home_icon" aria-hidden="true">
+            <use xlink:href="#icon-lianxi"></use>
+          </svg>
+          请联系我</div></a>
+      </div>
+
+      <div class="x-club-box">
+        <p style="padding-left: 20px;">{{ clubinfo.name }}</p>
+        <p><img src="static/pos.png" style="margin-right: 5px;vertical-align: middle;width: 15px;" />{{ clubinfo.address }}</p>
+        <div class="border-about">
+          <p>　　{{ clubinfo.description }}</p>
+
+          <div class="clubimglist">
+            <div class="img_item" v-for="(item, idx) in clubImg" @click="lookimg = idx"><img :src="item" alt="" @click="showDialogStyle = true"></div>
           </div>
-			</div>
-			<div class="home_btnbox th2">
-				<div class="home_btn" @click="getFabulous()">
-					<img class="home_icon" src="static/x_icon_heart.png" alt="">
-					点赞 {{ userinfo.good }}</div>
-				<a style="color:#333333;" :href="'tel:' + userinfo.phone" class="call">
-					<div class="home_btn" style="float: right">
-						<img class="home_icon" src="static/x_icon_tel.png" alt="">
-						请联系我</div>
-				</a>
-			</div>
-		</div>
-		<p class="tit th2">关于我们</p>
-		<div class="x-club-box th2">
-			<p style="padding-left: 20px;">{{ clubinfo.name }}</p>
-			<p><img src="static/pos.png" style="margin-right: 5px;vertical-align: middle;width: 15px;" />{{ clubinfo.address }}</p>
-			<div class="clubimglist">
-				<div class="img_item" v-for="(item, idx) in clubImg" @click="lookimg = idx">
-					<img :src="item" alt="" @click="showDialogStyle = true"></div>
-			</div>
 
-      <x-dialog v-model="showDialogStyle" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', height: '100%', 'background-color': '#000'}">
-        <img :src="clubImg[lookimg] ? clubImg[lookimg] : 'static/404.png' " alt="" style="position:relative; width: 100%;top: -0px;" @click="showDialogStyle = false">
-      </x-dialog>
+          <x-dialog v-model="showDialogStyle" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', height: '100%', 'background-color': '#000'}">
+            <img :src="clubImg[lookimg] ? clubImg[lookimg] : 'static/404.png' " alt="" style="position:relative; width: 100%;top: -0px;" @click="showDialogStyle = false">
+          </x-dialog>
+        </div>
+        
+      </div>
 
-			<p style="font-size: 14px;">　　{{ clubinfo.description }}</p>
 
-		</div>
-		<div class="serve_box th2">
-			<p class="tit th2">服务项目</p>
-			<div class="serveBox borderT" v-for="item in clubinfo.serve">
-        <div class="left" :style="'background: #999 url('+item[2]+') no-repeat center;background-size: cover'"></div>
-				<div class="right">
-					<p class="tle">{{item[0]}}</p>
-					<p>{{item[1]}}</p>
-				</div>
-			</div>
-		</div>
-		<div style="margin-top: 20px;">
-			<p class="tit th2">优惠活动</p>
-			<div class="yh_active th2" v-for="item in clubinfo.act">
-				<p class="tle">{{item[0]}}</p>
-				<p>{{item[1]}}</p>
-				<img style="width:100%;display: block;margin: 5px auto;" :src="item[2]"></div>
-		</div>
-		<div class="serve_box" :style="article.length ? 'display: block' : 'display: none'">
-      <p class="tit th2">文章专栏</p>
-      <a :href="'http://dmyzs.test.juefei88.com/h5/art/#/article/'+item.a_id+'/userid/'+ item.openid"  v-for="item in article" style="color: #333;">
-        <div class="serveBox borderT">
-          <div class="left" :style="'background: #999 url('+item.image+') no-repeat center;background-size: cover'"></div>
+   
+      <div class="serve_box">
+        <p class="title">/&nbsp;服务项目&nbsp;/</p>
+        <div class="serveBox borderT2" v-for="item in clubinfo.serve">
+          <div class="left" :style="'background: #999 url('+item[2]+') no-repeat center;background-size: cover'"></div>
           <div class="right">
-            <p class="tle">{{item.name}}</p>
-            <p>阅读量：{{item.readed}}</p>
-            <p>点赞数：{{item.good}}</p>
+            <p class="tle">{{item[0]}}</p>
+            <p>{{item[1]}}</p>
           </div>
         </div>
-      </a>
-      <p class="more-article" @click="toMore()">查看更多</p>
+      </div>
+
+      <div>
+        <p class="title">/&nbsp;优惠活动&nbsp;/</p>
+        <div class="yh_active" v-for="item in clubinfo.act">
+          <p class="tle">{{item[0]}}</p>
+          <p>{{item[1]}}</p>
+          <img style="width:100%;display: block;margin: 5px auto;" :src="item[2]">
+        </div>
+      </div>
+
+      <div class="serve_box" :style="article.length ? 'display: block' : 'display: none'">
+        <p class="title">/&nbsp;文章专栏&nbsp;/</p>
+        <div class="borderT2" style="padding: 20px;">
+          <a :href="'http://dmyzs.test.juefei88.com/h5/art/#/article/'+item.a_id+'/userid/'+ item.openid"  v-for="item in article" style="color: #333;">
+            <div class="serveBox">
+              <div class="left" :style="'background: #999 url('+item.image+') no-repeat center;background-size: cover'"></div>
+              <div class="right">
+                <p class="tle">{{item.name}}</p>
+                <p>阅读量：{{item.readed}}</p>
+                <p>点赞数：{{item.good}}</p>
+              </div>
+            </div>
+          </a>
+          <p class="more-article" style="background: #999;" @click="toMore()">查看更多</p>
+        </div>
+      </div>
+
+      <div class="erweimaBox">
+        <div class="erweima">
+          <p>长按下方二维码了解更多</p>
+            <qrcode :value="userinfo.qrcode" size="100"></qrcode>
+        </div>
+      </div>
+
+      <div class="biaoshi">大美业小助手技术支持</div>
+      <toast v-model="goodStatus" type="text" width="20">{{ '今日点赞已达上限' }}</toast>
     </div>
-		<div class="erweimaBox th2">
-			<div class="erweima">
-				<qrcode :value="userinfo.qrcode" size="100"></qrcode>
-			</div>
-		</div>
-		<div class="biaoshi">大美业小助手技术支持</div>
-		<toast v-model="goodStatus" type="text" width="20">{{ '今日点赞已达上限' }}</toast>
-	</div>
 </template>
 <script type='text/ecmascript-6'>
   import t from './../../api/public'
   import wx from 'weixin-js-sdk'
-  import { XDialog, Qrcode, Toast, TransferDomDirective as TransferDom } from 'vux'
+  import { XDialog, Toast, Qrcode, TransferDomDirective as TransferDom } from 'vux'
 
   export default {
     directives: {
@@ -94,7 +112,7 @@
     components: {
       Toast,
       XDialog,
-      Qrcode,
+      Qrcode
     },
     data () {
       return {
@@ -117,6 +135,7 @@
       let that = this
       document.title = '个人主页'
       document.body.style.background = '#ffffff'
+
       var urls=location.href.split('/#')[0]+"?"+encodeURIComponent(location.href.split('/#')[1])
       t.xhr.getPost({
         siteId: 1,
@@ -199,7 +218,6 @@
       })
 
       t.myStorage.setLocal('goodnum', 0)
-
     },
     methods: {
       getFabulous () {
@@ -239,7 +257,7 @@
         })
       },
       changeStyle(){
-      	this.$router.push('/person/style')
+        this.$router.push('/person/style')
       },
       toMore(){
         this.$router.push('/person/article/' + document.location.href.split('#')[1].split('/')[3])

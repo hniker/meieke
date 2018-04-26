@@ -3,7 +3,6 @@
   top: 10px;
   width: 100%;
   height: 75px;
-  background: #ffffff;
   overflow: hidden;
 }
 .tx_title {
@@ -30,27 +29,23 @@
   float: right;
 }
 .baseinfo_submit {
-  position: relative;
-  top: 20px;
-}
-.line_box2 {
-  width: 100%;
-  height: 50px;
-  background: #ffffff;
   overflow: hidden;
-  border-bottom: 1px solid #eeeeee;
-}
-.linebox_title {
   position: relative;
-  top: 5px;
-  left: 10px;
-  float: left;
+  width: 100%;
+  background: #FFF;
+  margin-bottom: 15px;
+}
+
+.linebox_title {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 5px;
 }
 .linebox_text1 {
-  clear: left;
-  position: relative;
-  top: 8px;
-  left: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
   font-size: 10px;
   color: #cccccc;
 }
@@ -107,13 +102,7 @@ div.weui-cell__ft .vux-cell-primary .vux-datetime-value::after {
   float: right;
   font-size: 12px;
 }
-.line_box2 p {
-  position: relative;
-  font-size: 14px;
-  top: 5px!important;
-  left: -5px!important;
-  float: left;
-}
+
 .weui-label {
   font-size: 14px;
   position: relative;
@@ -139,4 +128,296 @@ span.vux-popup-picker-value {
   position: absolute;
   top: 5px!important;
   display: none!important;
+}
+
+/*new add*/
+.tit-info{
+  float: right;
+  font-size: 10px;
+  vertical-align: middle;
+  color: #999;
+  font-weight: bold;
+}
+
+.bor-bott{
+  border-bottom: 1px solid #eeeeee;
+}
+
+.base-info-box{
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  background: #FFF;
+}
+
+.base-tips-c{
+  overflow: hidden;
+  width: 100%;
+  padding: 0 10px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.img-box{
+  overflow: hidden;
+  float: left;
+  width: 70px;
+  height: 70px;
+}
+
+.img-box img{
+  width: 100%;
+}
+
+.cont-box{
+  float: left;
+  padding-top: 10px;
+  margin-left: 20px;
+}
+
+.cont-box p{
+  color: #666;
+  font-weight: bold;
+}
+
+.cont-box p:nth-child(1){
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.cont-box p:nth-child(2){
+  font-size: 12px;
+}
+
+.qrcode-tit{
+  float: left;
+  overflow: hidden;
+  position: relative;
+  padding: 5px 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.qrcode-tit span{
+  float: right;
+  margin-right: 5px;
+  vertical-align: middle;
+  color: #999;
+}
+
+.club.base-info-box p{
+  font-size: 14px;
+  color: #999;
+  margin: 5px 0;
+}
+
+.club.base-info-box p span{
+  color: #666;
+}
+
+.service-box{
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.club-img-w{
+  overflow: hidden;
+  position: relative;
+  float: left;
+  width: 30%;
+  height: 100px;
+}
+
+.club-img-w img{
+  position: absolute;
+  top: 0;bottom: 0;
+  margin: auto;
+  width: 100%;
+}
+
+.serve-right-box{
+  overflow: hidden;
+  float: right;
+  width: 65%;
+  margin-left: 5%;
+}
+
+.info-status{
+  overflow: hidden;
+  float: right;
+}
+
+.icon_img {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+}
+.icon_text {
+  font-size: 10px;
+  color: #999;
+  font-weight: bold;
+}
+
+.base-left-box{
+  overflow: hidden;
+  width: 50%;
+  height: 50px;
+  float: left;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.base-left-box .h1{
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.base-left-box .h2{
+  font-size: 12px;
+  color: #666;
+  font-weight: bold;
+}
+
+.base-right-box{
+  position: relative;
+  overflow: hidden;
+  width: 50%;
+  height: 50px;
+  float: right;
+}
+
+.base-right-box .head-img{
+  float: right;
+  margin-right: 10px;
+  width: 50px;height: 50px;
+  vertical-align: middle;
+}
+
+.base-right-box .img-base64{
+  position: absolute;
+  width: 50px;height: 50px;
+  top: 0;
+  right: 10px;
+  z-index: 99999;
+  opacity: 0;
+}
+
+.base-right-box input{
+  display: block;
+  float: right;
+  width: 100px;
+  height: 30px;
+  margin-top: 10px;
+  border: none;
+}
+
+.base-right-box .vux-cell-value{
+  right: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 50px;
+}
+
+.base-info-box textarea {
+  display: block;
+  box-sizing: border-box;
+  border:1px solid #CCC;
+  width: 90%;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px auto;
+}
+
+/* 手机号验证 */
+.phone_inputbox {
+  position: relative;
+  width: 80%;
+  height: 32px;
+  line-height: 32px;
+  margin: 0px auto;
+  margin-top: 10px;
+  border:1px solid #cccccc;
+  border-radius: 3px;
+  text-align: left;
+  overflow: hidden;
+}
+.phone_input {
+  position: absolute;
+  left: 10px;
+  border: 0px;
+  width: 200px!important;
+  height: 32px;
+  overflow: hidden;
+
+}
+.yz_inputbox {
+  position: relative;
+  width: 50%;
+  height: 30px;
+  line-height: 30px;
+  border:1px solid #cccccc;
+  border-radius: 3px;
+  text-align: left;
+  float: left;
+  overflow: hidden;
+
+}
+.yz_input {
+  position: absolute;
+  height: 32px;
+  left: 10px;
+  width: 100px!important;
+  border: 0px;
+
+}
+
+.code_btn {
+  position: relative;
+  margin-left: 10px;
+  width: 42%;
+  height: 30px;
+  line-height: 30px;
+  float: right;
+  /*background-image: linear-gradient(45deg, #84fab0 0%, #8fd3f4 100%);*/
+  background-image: linear-gradient(45deg, #5ee7df 0%, #b490ca 100%);
+  text-align: center;
+  font-size: 12px;
+  color: #ffffff;
+  border-radius: 3px;
+  border:0px;
+  font-weight: 200;
+   overflow: hidden;
+}
+.code_btn2 {
+  position: relative;
+  margin-left: 10px;
+  width: 42%;
+  height: 30px;
+  line-height: 30px;
+  float: right;
+  /*background-image: linear-gradient(45deg, #84fab0 0%, #8fd3f4 100%);*/
+  background-color: #cccccc;
+  text-align: center;
+  font-size: 12px;
+  color: #ffffff;
+  border-radius: 3px;
+  border:0px;
+  font-weight: 200;
+  overflow: hidden;
+
+}
+.binding_btn {
+  width: 100%;
+  height: 30px;
+  background-image: linear-gradient(-120deg, #a1c4fd 0%, #c2e9fb 100%);  border:0px;
+  border-radius: 3px;
+  color: #ffffff;
 }

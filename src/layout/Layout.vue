@@ -14,7 +14,11 @@
     },
     data () {
       return {
-        transitionName: 'slide-left'
+        transitionName: 'slide-left',
+        home: true,
+        marketing: false,
+        personal: false,
+        show: false
       }
     },
     mounted () {

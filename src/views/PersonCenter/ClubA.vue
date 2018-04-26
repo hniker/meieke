@@ -1,21 +1,19 @@
 <template>
   <div>
     <div class="line_box_t">
-      <div class="line_lab"> 项目名称： </div>
-      <div class="line_input"><input type="text" placeholder="请填项目名称" v-model="name"> </div>
+      <div class="line_lab"> 活动名称： </div>
+      <div class="line_input"><input type="text" placeholder="请填活动名称" v-model="name"> </div>
     </div>
 
-    <div class="line_box_t" style="margin-top: 10px;">
-      <div class="line_lab"> 项目图片： </div>
-      <file-base64 id="pro" style="display:block;position:relative; top: 10px; left: 120px; width: 120px;height: 40px;opacity:1;z-index: 9999;"
-                   v-bind:multiple="false"
-                   v-bind:done="getProImg">
-      </file-base64>
+    <div class="line_box_t" style="margin-top: 10px;height: 80px;line-height: 80px;">
+      <div class="line_lab"> 活动图片： </div>
+
+      <base64-upload id="pro" class="img-upload" imageSrc="static/upload.jpg" @change="onChangeImage"></base64-upload>
     </div>
 
 
     <div class="line_box_c2" style="margin-top: 10px;">
-      <div class="line_lab" style="position: relative;top: 10px;"> 项目介绍： </div>
+      <div class="line_lab" style="position: relative;top: 10px;"> 活动介绍： </div>
       <div style="clear: left; position: relative; top:20px; left: 10px;"><textarea rows="5" cols="40" v-model="des"> </textarea></div>
     </div>
 
@@ -31,11 +29,11 @@
       </div>
 
       <p style="position: absolute; left: 180px; color: #333333">{{ item.split('*%')[0] }}</p>
-      <p style="     position: absolute; left: 180px; top: 30px; color: #888888;font-size: 12px;">{{ item.split('*%')[1].substring(0, 25) + '...' }}</p>
+      <p style="position: absolute; left: 180px; top: 30px; color: #888888;font-size: 12px;">{{ item.split('*%')[1].substring(0, 25) + '...' }}</p>
       <!--<x-switch :value="true" :title="title" style="position: absolute; left: 180px; top: 70px;overflow: hidden;border: 0px;"></x-switch>-->
       <div style="position: absolute; bottom: 10px;right: 10px; background-color: #f74c31;width: 10px;height: 10px;border-radius: 5px;" @click="removeXm(index)">
-        <!--<i class="gb iconfont icon-guanbi" ></i>-->
       </div>
+      <p style="position:absolute;bottom: 10px;right: 30px;color: #333;font-size: 12px;line-height: 12px;" @click="removeXm(index)">删除</p>
 
     </div>
 
@@ -43,12 +41,12 @@
 </template>
 <script type='text/ecmascript-6'>
   import t from './../../api/public'
-  import fileBase64 from 'vue-file-base64'
+  import Base64Upload from 'vue-base64-upload'
   import { XSwitch } from 'vux'
 
   export default {
     components: {
-      fileBase64,
+      Base64Upload,
       XSwitch
     },
     data () {
@@ -75,6 +73,13 @@
     },
     methods: {
       pushXm () {
+        if (this.name == '' && this.des == '' && this.img == '') {
+          this.$vux.alert.show({
+            title: '提示',
+            content: '请先填写信息',
+          })
+          return;
+        }
         let xmitem = ''
         xmitem = this.name + '*%' + this.des + '*%' + this.img
         t.l(xmitem, 99)
@@ -84,19 +89,22 @@
         this.img = ''
         document.getElementById('pro').value = ''
       },
-      getProImg (files) {
+      onChangeImage(file) {
+        this.$vux.loading.show({ text: '正在上传图片' })
         let that = this
         t.xhr.getPost({
           siteId: 1,
           act: 'personal/actimg',
           data: {
             openid: t.myStorage.getLocal('openid'),
-            image: files.base64
+            image: 'data:image/jpeg;base64,' + file.base64
           }
         }, function (data) {
           that.img = data.data
+          that.$vux.loading.hide()
         })
       },
+
       removeXm (id) {
         this.xmList = this.deleteArrById(this.xmList, id)
       },
@@ -117,7 +125,7 @@
         }, function (data) {
           t.l(data, 111)
           if (data.code === '200') {
-            that.$router.push('/person/wsinfo')
+            that.$router.push('/person/editinfo')
           }
         })
       }
@@ -197,5 +205,21 @@
     position: absolute;
     top: -10px;
     left: 13px;
+  }
+  .img-upload{
+    overflow: hidden;
+    float: right;
+    position: relative;
+    width: 100px;
+    height: 50px;
+    margin-top: 15px;
+  }
+  .img-upload img{
+    position: absolute;
+    right: 10px;
+    top: 0;bottom: 0;
+    margin: auto;
+    width: 50px !important;
+    height: auto !important;
   }
 </style>

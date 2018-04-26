@@ -10,7 +10,7 @@
 
       </div>
     </div>
-
+  
       <div class="artivle_footer">
         <div style="position: relative;width: 90%;height: 180px;margin: 0px auto;border: 1px solid #e1e1e1;">
           <qrcode style="position: absolute;top: 20px;left: 10px;" :value="personHome" :size=120 type="img"></qrcode>

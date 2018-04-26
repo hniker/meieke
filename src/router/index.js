@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const Layout = r => require.ensure([], () => r(require('../layout/Layout.vue')), 'layout')
 const PersonCenter = r => require.ensure([], () => r(require('../views/PersonCenter/PersonCenter.vue')), 'personcenter')
 const Home = r => require.ensure([], () => r(require('../views/Home/Home.vue')), 'home')
+const EditInfo = r => require.ensure([], () => r(require('../views/PersonCenter/EditInfo.vue')), 'personcenter')
 const BaseInfo = r => require.ensure([], () => r(require('../views/PersonCenter/BaseInfo.vue')), 'personcenter')
 const UploadQRcode = r => require.ensure([], () => r(require('../views/PersonCenter/UploadQRcode.vue')), 'personcenter')
 const Login = r => require.ensure([], () => r(require('../views/Login/Login.vue')), 'login')
@@ -10,7 +11,12 @@ const SimpleLogin = r => require.ensure([], () => r(require('../views/Login/Simp
 const CodeTemp = r => require.ensure([], () => r(require('../views/Temp/CodeTemp.vue')), 'temp')
 const MemberVIP = r => require.ensure([], () => r(require('../views/PersonCenter/MemberVIP.vue')), 'personcenter')
 const ImgTest = r => require.ensure([], () => r(require('../views/Test/ImgTest.vue')), 'test')
-const PersonHome1 = r => require.ensure([], () => r(require('../views/PersonHome/PersonHome.vue')), 'personhome')
+const PersonHome = r => require.ensure([], () => r(require('../views/PersonHome/PersonHome.vue')), 'personhome')
+const PersonHome1 = r => require.ensure([], () => r(require('../views/PersonHome/PersonHome1.vue')), 'personhome')
+const ArticleHome = r => require.ensure([], () => r(require('../views/PersonHome/ArticleHome.vue')), 'personhome')
+const HomeStyle = r => require.ensure([], () => r(require('../views/PersonHome/HomeStyle.vue')), 'personhome')
+const HomePreview = r => require.ensure([], () => r(require('../views/PersonHome/HomeStylePreview.vue')), 'personhome')
+
 const ActivePage = r => require.ensure([], () => r(require('../views/PersonCenter/ActivePage.vue')), 'personcenter')
 const Article1 = r => require.ensure([], () => r(require('../views/ArticlePage/Article1.vue')), 'personcenter')
 const ClubInfo = r => require.ensure([], () => r(require('../views/PersonCenter/ClubInfo.vue')), 'personcenter')
@@ -58,6 +64,11 @@ export default new Router({
       ]
     },
     {
+      path: '/person/editinfo',
+      name: 'EditInfo',
+      component: EditInfo
+    },
+    {
       path: '/person/baseinfo',
       name: 'BaseInfo',
       component: BaseInfo
@@ -93,9 +104,29 @@ export default new Router({
       component: ImgTest
     },
     {
-      path: '/person/personhome/:userid',
+      path: '/person/article/:userid',
+      name: 'ArticleHome',
+      component: ArticleHome
+    },
+    {
+      path: '/person/personhome/:userid/1',
+      name: 'PersonHome',
+      component: PersonHome
+    },
+    {
+      path: '/person/personhome/:userid/2',
       name: 'PersonHome',
       component: PersonHome1
+    },
+    {
+      path: '/person/preview/:posterid',
+      name: 'HomePreview',
+      component: HomePreview
+    },
+    {
+      path: '/person/style',
+      name: 'HomeStyle',
+      component: HomeStyle
     },
     {
       path: '/postercenter/tj',

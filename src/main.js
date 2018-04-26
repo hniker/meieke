@@ -6,10 +6,11 @@ import router from './router'
 
 import Vuex from 'vuex'
 import uploader from 'vue-easy-uploader'
-import {AlertPlugin, ToastPlugin, DatetimePlugin} from 'vux'
+import {AlertPlugin, ToastPlugin, DatetimePlugin, LoadingPlugin} from 'vux'
 Vue.use(DatetimePlugin)
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
+Vue.use(LoadingPlugin)
 Vue.use(Vuex)
 // require('videojs-contrib-hls/dist/videojs-contrib-hls')
 
@@ -57,3 +58,15 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+
+if (isContains(location.href, '&from')) {
+  var _urlE = decodeURIComponent(location.href.split("?")[1].replace(/&from/, "?from"));
+  var href = location.href.split("?")[0] + "#" + decodeURIComponent(_urlE)
+  location.href = href
+}
+
+function isContains(str, substr) {
+  return new RegExp(substr).test(str);
+}
+

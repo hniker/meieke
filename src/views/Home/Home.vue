@@ -37,7 +37,7 @@
         </div>
       </div>
 <!--广告图片-->
-      <img class="gg_box" src="./../../../static/ss.png" alt="">
+      <img class="gg_box" src="./../../../static/ss2.jpg" alt="">
     </div>
 
 <!-- VIP推荐 -->
@@ -90,7 +90,7 @@
 
     <div>
       <x-dialog v-model="show" class="dialog-demo" style="padding: 10px;" hide-on-blur>
-        <div class="img-box">
+        <div class="img-boxs">
           <p style="position: relative; top: 10px; width: 90%;margin: 0px auto;font-size: 12px; text-align: left;color: #aaaaaa;">长按识别微信二维码，添加客服好友，为你解答疑问和及时获取最新消息！</p>
           <!--<img src="./../../../static/kf.gif" style="width: 100%">-->
           <img src="./../../../static/kf.jpeg" style="position:relative;top:10px; width: 50%;margin: 0px auto;" alt="">
@@ -162,6 +162,14 @@
       let that = this
       document.title = '首页'
       document.body.style.background = '#f1f4f5'
+      this.$parent.$data.home = true;
+      this.$parent.$data.marketing = false;
+      this.$parent.$data.personal = false;
+
+      // mock登录
+      // t.myStorage.setLocal('openid', 'osqwMwE73KfQU1Und_NzX58rS4vQ')
+      // t.myStorage.setLocal('token', '1b91e94b644fd42fa36811535d4ae4b3')
+
       this.$nextTick(function () {
         window.addEventListener('scroll', this.onScroll)
       })
@@ -288,8 +296,13 @@
         this.$router.push('/postercenter/tj')
       },
       goPersonHome () {
+        var _tid = t.myStorage.getLocal('homeTheme');
+        if (_tid == null) {
+        _tid = 1;
+        }
         if (t.myStorage.getLocal('is_perfect') === '1') {
-          document.location.href = 'http://dmyzs.test.juefei88.com/h5/ph/#/' + t.myStorage.getLocal('openid')
+          // document.location.href = 'http://dmyzs.test.juefei88.com/h5/#/' + t.myStorage.getLocal('openid')
+          this.$router.push('/person/personhome/' + t.myStorage.getLocal('openid') + '/' + _tid)
         } else {
           this.infoshow = true
         }
@@ -337,7 +350,16 @@
         this.$router.push('/viedo')
       },
       openImg4 () {
-        document.location.href = 'http://dmyzs.test.juefei88.com/h5/ph/#/' + t.myStorage.getLocal('openid')
+        var _tid = t.myStorage.getLocal('homeTheme');
+        if (_tid == null) {
+        _tid = 1;
+        }
+        if (t.myStorage.getLocal('is_perfect') === '1') {
+          // document.location.href = 'http://dmyzs.test.juefei88.com/h5/#/' + t.myStorage.getLocal('openid')
+          this.$router.push('/person/personhome/' + t.myStorage.getLocal('openid') + '/' + _tid)
+        } else {
+          this.infoshow = true
+        }
       },
       onScroll () {
         let that = this
@@ -378,6 +400,9 @@
       onConfirm (msg) {
         console.log('on confirm')
         this.$router.push('/person')
+        this.$parent.$data.home = false;
+        this.$parent.$data.marketing = false;
+        this.$parent.$data.personal = true;
         if (msg) {
           alert(msg)
         }
@@ -676,7 +701,11 @@
     line-height: 30px;
     color: #666;
   }
-  .img-box {
+   .img-box {
+    height: 200px;
+    overflow: hidden;
+  }
+  .img-boxs {
     height: 200px;
     overflow: hidden;
   }

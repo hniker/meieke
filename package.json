@@ -26,6 +26,7 @@
     "qrcode.vue": "^1.5.2",
     "videojs-contrib-hls": "^5.12.2",
     "vue": "^2.5.2",
+    "vue-base64-upload": "^1.0.1",
     "vue-core-image-upload": "^2.4.2",
     "vue-dplayer": "^0.0.9",
     "vue-easy-uploader": "^1.0.5",

@@ -2,19 +2,20 @@
   <div>
     <div class="Qrbox">
       <div class="headerImg_box">
-        <img :src="userinfo.avatar" alt="">\
+        <img :src="userinfo.avatar?userinfo.avatar: 'static/head.png'" alt="">
       </div>
       <p class="username1">{{ userinfo.nickname }}</p>
       <p class="dis_text">{{ userinfo.position }}</p>
       <p class="url-box" id="urlBox"></p>
 
-
-      <qrcode @click.native="openCode()" style="position: relative;top: 50px;text-align: center;" :value="qr_address" type="img"></qrcode>
-
+      <!-- <qrcode @click.native="openCode()" style="position: relative;top: 50px;text-align: center;" :value="qr_address" type="img"></qrcode> -->
     </div>
+    <!-- <iframe :src="qr_address" class="iframe-upload"></iframe> -->
+    <div v-html="qr_address">{{qr_address}}</div>
+<!-- 
 
     <x-button type="default" @click.native="openCode()" class="reUpload_btn">上传</x-button>
-    <x-button type="default" @click.native="uploadQr()" class="reUpload_btn">保存二维码</x-button>
+    <x-button type="default" @click.native="uploadQr()" class="reUpload_btn">保存二维码</x-button> -->
 
     <div v-transfer-dom>
       <confirm v-model="isQrcode"
@@ -43,12 +44,13 @@
     },
     data () {
       return {
-        qr_address: 'http://www.baidu.com',
+        qr_address: '',
         userinfo: {
           avatar: ''
         },
         isQrcode: false,
-        qr: false
+        qr: false,
+        imgBox: false
       }
     },
     mounted () {
@@ -61,16 +63,18 @@
         act: 'personal/getuserinfo',
         data: {
           token: t.myStorage.getLocal('token')
+          // token: '1fbd41b724040bce195abef6e1f63a71'
         }
       }, function (data) {
         t.l(data)
         that.userinfo = data.data.user[0]
-        that.qr_address = data.data.user[0].qrcode
+        that.qr_address = '<iframe src="qrcode.html?qrcode=' + data.data.user[0].qrcode +'" class="iframe-upload"></iframe>'
       })
     },
     methods: {
       openCode () {
-        document.location.href = 'http://dmyzs.test.juefei88.com/h5/qrcode.html'
+        // document.location.href = 'qrcode.html'
+        this.imgBox = true;
       },
       uploadQr () {
         this.isQrcode = true
@@ -93,7 +97,7 @@
             }
           }, function (data) {
             that.qr = false
-            that.$router.push('/person/wsinfo')
+            that.$router.push('/person/editinfo')
           })
         }
       },
@@ -104,13 +108,14 @@
 </script>
 <style>
   .Qrbox {
+    background: #FFF;
     position: relative;
     top: 80px;
     width: calc(100% - 20px);
-    height: 350px;
-    background-color: #ffffff;
+    /*height: 350px;*/
     margin: 0px auto;
     border-radius: 3px;
+    z-index: 1000;
   }
   .reUpload_btn {
     position: relative;
@@ -153,5 +158,16 @@
     color: #999999;
     font-weight: 200;
   }
-
+  .iframe-upload{
+    display: block;
+    position: relative;
+    top: 80px;
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    height: 400px;
+    border: none;
+    background: #FFF;
+    overflow: hidden;
+    z-index: 500;
+  }
 </style>

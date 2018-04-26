@@ -22,7 +22,7 @@
       }, function (data) {
         if (data.code === '200') {
           t.myStorage.setLocal('token', data.token)
-          document.location.href = 'http://test.juefei88.com/h5/#/home'
+          document.location.href = 'http://dmyzs.test.juefei88.com/h5/#/home'
         }
       })
     },

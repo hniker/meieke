@@ -32,7 +32,7 @@
     mounted () {
       this.value = t.myStorage.getLocal('person_home')
       document.title = '海报预览'
-      t.myStorage.setLocal('openid', 'osqwMwJKvlJbgt6tAf1sGDLF063o')
+      // t.myStorage.setLocal('openid', 'osqwMwJKvlJbgt6tAf1sGDLF063o')
       let that = this
       this.tid = document.location.href.split('#')[1].split('/')[3]
       t.xhr.getPost({
